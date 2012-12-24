@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(CPP_LIBS)include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(CPP_LIBS)lib-msvc-110\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(CPP_LIBS)lib-msvc110\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(CPP_LIBS)include\;$(IncludePath)</IncludePath>
@@ -53,6 +53,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;GLFW.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,10 +67,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;glu32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\quaternion.cpp" />
+    <ClCompile Include="src\math\transform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\math\math.hpp" />
+    <ClInclude Include="src\math\matrix.hpp" />
+    <ClInclude Include="src\math\quaternion.hpp" />
+    <ClInclude Include="src\math\transform.hpp" />
+    <ClInclude Include="src\math\vector.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
