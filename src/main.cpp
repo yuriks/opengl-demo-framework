@@ -6,6 +6,9 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <cassert>
+
+#define CHECK_GL_ERROR assert(glGetError() == GL_NO_ERROR)
 
 GLint program;
 GLuint buffer;
@@ -90,25 +93,27 @@ void init()
 	shaders.push_back(createShader(GL_FRAGMENT_SHADER, "fragmentshader.frag"));
 	program = createProgram(shaders);
 	std::for_each(shaders.begin(), shaders.end(), glDeleteShader);
-
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(buffer, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	CHECK_GL_ERROR;
 	
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
+	CHECK_GL_ERROR;
+
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+	CHECK_GL_ERROR;
+
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+	CHECK_GL_ERROR;
 }
 
 void display()
 {
 	glUseProgram(program);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
-	glUseProgram(0);
 }
 
 int main(int argc, char** argv)
@@ -153,6 +158,7 @@ int main(int argc, char** argv)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
 	init();
+	CHECK_GL_ERROR;
 
 	static const double fps = 1./60.;
 	static const double ups = 1./60.;
@@ -177,5 +183,7 @@ int main(int argc, char** argv)
 
 		running = !glfwGetKey('q') && glfwGetWindowParam(GLFW_OPENED);
 		glfwSleep(std::min(fps - (glfwGetTime() - last_render), ups - (glfwGetTime() - last_update)));
+
+		CHECK_GL_ERROR;
 	}
 }
