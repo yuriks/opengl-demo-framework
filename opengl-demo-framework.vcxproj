@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(CPP_LIBS)include\;$(IncludePath)</IncludePath>
+    <IncludePath>src\;$(CPP_LIBS)include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(CPP_LIBS)lib-msvc110\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -71,11 +71,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GL3\gl3w.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\quaternion.cpp" />
     <ClCompile Include="src\math\transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GL3\gl3.h" />
+    <ClInclude Include="src\GL3\gl3w.h" />
     <ClInclude Include="src\math\math.hpp" />
     <ClInclude Include="src\math\matrix.hpp" />
     <ClInclude Include="src\math\quaternion.hpp" />
